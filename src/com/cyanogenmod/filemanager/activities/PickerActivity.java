@@ -221,7 +221,9 @@ public class PickerActivity extends Activity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        measureHeight();
+        if (this.mRootView != null) { // the view may not be ready if we are requesting permission
+            measureHeight();
+        }
     }
 
     /**
@@ -253,7 +255,8 @@ public class PickerActivity extends Activity
         //- Mime/Type restriction
         String mimeType = getIntent().getType();
         if (mimeType != null) {
-            if (!MimeTypeHelper.isMimeTypeKnown(this, mimeType)) {
+            if (!MimeTypeHelper.isMimeTypeKnown(this, mimeType) &&
+                !MimeTypeHelper.isAndroidCursorMimeType(mimeType)) {
                 Log.i(TAG,
                         String.format(
                                 "Mime type %s unknown, falling back to wildcard.", //$NON-NLS-1$
@@ -494,6 +497,7 @@ public class PickerActivity extends Activity
             // and return RESULT_OK result)
             Intent result = new Intent();
             result.setData(getResultUriForFileFromIntent(this, src, getIntent()));
+            result.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             setResult(Activity.RESULT_OK, result);
             finish();
 

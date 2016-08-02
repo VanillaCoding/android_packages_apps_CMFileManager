@@ -112,6 +112,8 @@ public class SearchActivity extends Activity
 
     private static boolean DEBUG = false;
 
+    private static int INVALID_RELEVANCE = 1;
+
     /**
      * An {@link Intent} action for restore view information.
      */
@@ -254,6 +256,8 @@ public class SearchActivity extends Activity
                             mMimeTypeSpinner.setVisibility(View.VISIBLE);
                         }
                     } catch (Throwable ex) {
+                        // hide the search progress spinner if the search fails
+                        mStreamingSearchProgress.setVisibility(View.INVISIBLE);
                         Log.e(TAG, "onAsyncEnd method fails", ex); //$NON-NLS-1$
                     }
                 }
@@ -864,7 +868,9 @@ public class SearchActivity extends Activity
             }
             if (success) {
                 // add to adapter
-                activity.mAdapter.addNewItem(mHolder);
+                if (mResult.getRelevance() > INVALID_RELEVANCE) {
+                    activity.mAdapter.addNewItem(mHolder);
+                }
                 int progress = activity.mAdapter.resultsSize();
                 activity.toggleResults(progress > 0, false);
                 String foundItems = activity.getResources().getQuantityString(
@@ -1478,10 +1484,11 @@ public class SearchActivity extends Activity
                     new Query().fillSlots(mQuery.getQueries()));
 
             for (SearchResult result : newResults) {
-                // Only show results that are within our category, or all if no filter is set
-                if (MimeTypeHelper.MimeTypeCategory.NONE.equals(category)
-                        || MimeTypeHelper.getCategory(SearchActivity.this,
-                        result.getFso()).equals(category)) {
+                // Show all results that are relevant if no filter is set or show results that are
+                // relevant and match the specified category
+                if (result.getRelevance() > INVALID_RELEVANCE && (MimeTypeHelper.MimeTypeCategory
+                        .NONE.equals(category) || MimeTypeHelper.getCategory(SearchActivity.this,
+                        result.getFso()).equals(category))) {
                     results.add(generateDataHolder(result));
                 }
             }

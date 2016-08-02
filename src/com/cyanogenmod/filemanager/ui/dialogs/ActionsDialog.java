@@ -477,7 +477,7 @@ public class ActionsDialog implements OnItemClickListener, OnItemLongClickListen
         final InputNameDialog inputNameDialog =
                 new InputNameDialog(
                         this.mContext,
-                        this.mOnSelectionListener.onRequestCurrentItems(),
+                        this.mOnSelectionListener.onRequestCurrentDir(),
                         menuItem.getTitle().toString());
         inputNameDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -519,7 +519,7 @@ public class ActionsDialog implements OnItemClickListener, OnItemLongClickListen
         final InputNameDialog inputNameDialog =
                 new InputNameDialog(
                         this.mContext,
-                        this.mOnSelectionListener.onRequestCurrentItems(),
+                        this.mOnSelectionListener.onRequestCurrentDir(),
                         fso,
                         allowFsoName,
                         menuItem.getTitle().toString());
@@ -653,6 +653,10 @@ public class ActionsDialog implements OnItemClickListener, OnItemLongClickListen
                 menu.removeItem(R.id.mnu_actions_send);
             }
 
+            if (!IntentsActionPolicy.sendHandledByAnyActivity(mContext, this.mFso)) {
+                menu.removeItem(R.id.mnu_actions_send);
+            }
+
             // Create link (not allow in storage volume)
             if (StorageHelper.isPathInStorageVolume(this.mFso.getFullPath())) {
                 menu.removeItem(R.id.mnu_actions_create_link);
@@ -682,7 +686,8 @@ public class ActionsDialog implements OnItemClickListener, OnItemLongClickListen
         }
 
         //- Remove properties option if multiple files selected
-        if (selection != null && selection.size() > 1) {
+        // or this selection contains a secure folder.
+        if ((selection != null && selection.size() > 1) || containsSecureDirectory(selection)) {
             menu.removeItem(R.id.mnu_actions_properties);
             menu.removeItem(R.id.mnu_actions_properties_current_folder);
         }
@@ -757,7 +762,8 @@ public class ActionsDialog implements OnItemClickListener, OnItemLongClickListen
                             break;
                         }
                     }
-                    if (!areAllFiles) {
+                    if (!areAllFiles ||
+                            !IntentsActionPolicy.sendHandledByAnyActivity(mContext, selection)) {
                         menu.removeItem(R.id.mnu_actions_send_selection);
                     }
                 }
@@ -784,6 +790,10 @@ public class ActionsDialog implements OnItemClickListener, OnItemLongClickListen
         if (!mGlobal && !FileHelper.isDirectory(mFso)) {
             menu.removeItem(R.id.mnu_actions_set_as_home);
         } else if (mGlobal && (selection != null && selection.size() > 0)) {
+            menu.removeItem(R.id.mnu_actions_global_set_as_home);
+        } else if (!mGlobal && (mFso.isSecure() || mFso.isRemote())) {
+            menu.removeItem(R.id.mnu_actions_set_as_home);
+        } else if (mGlobal && (mFso.isSecure() || mFso.isRemote())) {
             menu.removeItem(R.id.mnu_actions_global_set_as_home);
         }
 
@@ -865,5 +875,23 @@ public class ActionsDialog implements OnItemClickListener, OnItemLongClickListen
             resources.add(new LinkedResource(src, dst));
         }
         return resources;
+    }
+
+    private boolean containsSecureDirectory(List<FileSystemObject> selection) {
+        if (mFso != null && FileHelper.isDirectory(mFso) && mFso.isSecure()) {
+            return true;
+        }
+
+        if (selection == null) {
+            return false;
+        }
+
+        for (FileSystemObject fso : selection) {
+            if (FileHelper.isDirectory(fso) && fso.isSecure()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

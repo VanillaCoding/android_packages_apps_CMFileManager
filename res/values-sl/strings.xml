@@ -44,7 +44,7 @@
   <!-- The root directory name -->
   <string name="root_directory_name"><![CDATA[<Korenska mapa>]]></string>
   <!-- The search result name -->
-  <string name="search_result_name">Iskanje: <xliff:g id="terms">%1$s</xliff:g></string>
+  <string name="search_result_name">Išči: <xliff:g id="terms">%1$s</xliff:g></string>
   <!-- Loading waiting message -->
   <string name="loading_message">Nalaganje \u2026</string>
   <!-- Computing message -->
@@ -121,6 +121,7 @@
   <!-- Overwrite files? -->
   <string name="msgs_overwrite_files">Nekatere mape že obstajajo v ciljni mapi.\n\nPrepiši?</string>
   <!-- The association of an action to the app failed -->
+  <string name="msgs_action_association_failed">Povezovanje dejanja z aplikacijo je spodletelo.</string>
   <!-- An operation requires elevated privileged. Ask the user. -->
   <string name="advise_insufficient_permissions">Opravilo zahteva skrbniška dovoljenja.\n\nAli želite spremeniti v način Skrbniškega dostopa?</string>
   <!-- The parent directory of the current directory in navigation view -->
@@ -142,7 +143,7 @@
   <!-- ActionBar Buttons - Actions -->
   <string name="actionbar_button_actions_cd">Dejanja</string>
   <!-- ActionBar Buttons - Search -->
-  <string name="actionbar_button_search_cd">Iskanje</string>
+  <string name="actionbar_button_search_cd">Išči</string>
   <!-- ActionBar Buttons - Overflow -->
   <string name="actionbar_button_overflow_cd">Več možnosti</string>
   <!-- ActionBar Buttons - Storage volumes -->
@@ -351,7 +352,7 @@
   <!-- Initial directory error message -->
   <string name="initial_directory_error_msg">Med shranjevanjem začetne mape je prišlo do napake.</string>
   <!-- Menu - Navigation - Search -->
-  <string name="menu_search">Iskanje</string>
+  <string name="menu_search">Išči</string>
   <!-- Menu - Navigation - Settings -->
   <string name="menu_settings">Nastavitve</string>
   <!-- Menu - History - Clear history -->
@@ -511,7 +512,7 @@
   <!--  Filetime formats -->
   <string name="filetime_format_mode_system">Sistemsko določeno</string>
   <string name="filetime_format_mode_locale">Določeno z jezikovno oznako</string>
-  <string name="filetime_format_mode_ddMMyyyy_HHmmss">dd.mm.yyyy hh:mm:ss</string>
+  <string name="filetime_format_mode_ddMMyyyy_HHmmss">dd. mm. yyyy hh:mm:ss</string>
   <string name="filetime_format_mode_MMddyyyy_HHmmss">mm/dd/yyyy hh:mm:ss</string>
   <string name="filetime_format_mode_yyyyMMdd_HHmmss">yyyy-mm-dd hh:mm:ss</string>
   <!-- Selection -->
@@ -570,7 +571,7 @@
   <!-- Preferences - General - Disk usage warning level summary -->
   <!-- FIXME Use "percent" instead of "%" symbol, because it make crash the app on getSummary
          of ListPreference. This should be fixed in frameworks base prior to be added here. -->
-  <string name="pref_disk_usage_warning_level_summary" formatted="false">Prikaži različno barvo v gradnikih uporabe diska, ko dosežejo <xliff:g id="level">%1$s</xliff:g> odstotkov nezasedenega prostora</string>
+  <string name="pref_disk_usage_warning_level_summary" formatted="false">Prikaži različno barvo v pripomočkih uporabe diska, ko dosežejo <xliff:g id="level">%1$s</xliff:g> odstotkov nezasedenega prostora</string>
   <!-- Preferences - General - Compute folder statistics title -->
   <string name="pref_compute_folder_statistics">Izračun statistike map</string>
   <!-- Preferences - General - Compute folder statistics summary on -->
@@ -764,6 +765,7 @@
   <string name="welcome_title">Dobrodošli</string>
   <!-- Welcome Dialog - Message -->
   <string name="welcome_msg">Dobrodošli v upravljalniku datotek CyanogenMod.\n\nTa aplikacija vam dovoli, da raziščete datotečni sistem in izvajate opravila, ki lahko poškodujejo vašo napravo. V izogib škodi se bo aplikacija začela v varnem načinu z nizkimi dovoljenji.\n\nDo naprednega načina z visokimi dovoljenji lahko dostopate v nastavitvah. Vaša odgovornost je zagotoviti, da opravilo ne poškoduje vašega sistema.\n\nEkipa CyanogenMod</string>
+  <string name="activity_not_found_exception">Za odpiranje te datoteke ni bilo mogoče najti aplikacije</string>
   <string name="storage_permissions_denied">Upravljalnik datotek potrebuje dovoljenje za pomnilniško napravo za prikaz vaših datotek.</string>
   <string name="storage_permissions_explanation">Pojdite v Nastavitve in tapnite Dovoljenja za odobritev dovoljenja.</string>
   <string name="snackbar_settings">Nastavitve</string>
